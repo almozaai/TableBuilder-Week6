@@ -1,0 +1,79 @@
+<html>
+  <head>
+    <style>
+
+      .row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .cell {
+        width: 30px;
+        height: 30px;
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Table Builder</h1>
+
+    <div class="container">
+      <div class="row">
+        <div class="cell">1</div>
+        <div class="cell">2</div>
+        <div class="cell">3</div>
+      </div>
+      <div class="row">
+        <div class="cell">4</div>
+        <div class="cell">5</div>
+        <div class="cell">6</div>
+      </div>
+      <div class="row">
+        <div class="cell">7</div>
+        <div class="cell">8</div>
+        <div class="cell">9</div>
+      </div>
+    </div>
+    <script>
+      const table = document.querySelector('.container')
+      const rows = document.querySelector('.row')
+      const cells = document.querySelector('.cell')
+
+      const generateNxN = (n) => {
+        let table = []
+        for(let i = 0; i < n; i++){
+          let row = []
+          table.push(row)
+          for(let j = 0; j < n; j++){
+            row.push(0)
+          }
+        }
+        return table;
+      }
+
+      const generateHTML = (rows)=> {
+
+        return rows.map(row => `
+            <div class='row'>${row.map(cell => `
+              <div class='cell'>${cell}</div>`).join('')}</div>`).join('')
+      }
+
+      const data = generateNxN(5)
+
+      table.addEventListener('click', ev =>{
+        const cdx = [...ev.target.parentNode.children].indexOf(ev.target)
+        const rdx = [...ev.target.parentNode.parentNode.children].indexOf(ev.target.parentNode)
+        data[rdx][cdx]++
+        console.table(data)
+        render();
+      })
+
+      const render = () => {
+        const html = generateHTML(data)
+        table.innerHTML = html;
+      }
+      render();
+    </script>
+  </body>
+</html>
